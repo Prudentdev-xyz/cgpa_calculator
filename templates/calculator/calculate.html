@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculate GP — GP Calc</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0f172a; color: #fff; min-height: 100vh; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid #1e293b; }
+    .logo { font-size: 15px; font-weight: 700; color: #3b82f6; letter-spacing: 1px; text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-right span { font-size: 13px; color: #64748b; }
+    .nav-right a { font-size: 12px; color: #475569; padding: 6px 14px; border: 1px solid #334155; border-radius: 6px; text-decoration: none; }
+    .nav-right a:hover { border-color: #3b82f6; color: #3b82f6; }
+    .main { max-width: 580px; margin: 0 auto; padding: 36px 16px 60px; }
+    .page-header { margin-bottom: 28px; }
+    .page-header h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .page-header p { font-size: 13px; color: #64748b; }
+    .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #3b82f6; margin-bottom: 10px; }
+    .col-labels { display: grid; grid-template-columns: 2fr 80px 110px 36px; gap: 8px; padding: 0 12px; margin-bottom: 6px; }
+    .col-labels span { font-size: 11px; color: #475569; }
+    .course-row { display: grid; grid-template-columns: 2fr 80px 110px 36px; gap: 8px; align-items: center; background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; transition: border-color 0.2s; }
+    .course-row:hover { border-color: #3b82f6; }
+    .course-row input, .course-row select { background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; font-size: 12px; padding: 8px 10px; width: 100%; }
+    .course-row input:focus, .course-row select:focus { outline: none; border-color: #3b82f6; }
+    .course-row input::placeholder { color: #475569; }
+    .course-row select option { background: #0f172a; }
+    .remove-btn { width: 32px; height: 32px; background: transparent; border: 1px solid #334155; border-radius: 6px; color: #475569; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .remove-btn:hover { border-color: #ef4444; color: #ef4444; background: #450a0a; }
+    .add-btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 11px 14px; background: transparent; border: 1px dashed #334155; border-radius: 10px; color: #3b82f6; font-size: 13px; cursor: pointer; margin-top: 4px; transition: all 0.2s; }
+    .add-btn:hover { border-color: #3b82f6; background: #1e293b; }
+    .submit-btn { width: 100%; padding: 14px; background: #3b82f6; color: #fff; font-size: 14px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; margin-top: 20px; transition: background 0.2s; }
+    .submit-btn:hover { background: #2563eb; }
+    .msg-error { background: #450a0a; border: 1px solid #7f1d1d; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #f87171; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'landing' %}" class="logo">GP CALC</a>
+    <div class="nav-right">
+      <span>Hello, {{ request.user.username }}</span>
+      <a href="{% url 'logout' %}">Logout</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <h1>Calculate your GP</h1>
+      <p>Enter all your courses for this semester below</p>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="msg-error"><i class="ti ti-alert-circle"></i> {{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" id="calc-form">
+      {% csrf_token %}
+
+      <div class="section-label">Courses</div>
+      <div class="col-labels">
+        <span>Course name</span>
+        <span>Units</span>
+        <span>Grade</span>
+        <span></span>
+      </div>
+
+      <div id="course-list">
+        {% for i in num_range %}
+        <div class="course-row">
+          <input type="text" name="course_name" placeholder="e.g. MTH 101"/>
+          <input type="number" name="course_units" placeholder="3" min="1" max="6"/>
+          <select name="course_grade">
+            <option value="">Grade</option>
+            <option value="A">A — 5.0</option>
+            <option value="B">B — 4.0</option>
+            <option value="C">C — 3.0</option>
+            <option value="D">D — 2.0</option>
+            <option value="E">E — 1.0</option>
+            <option value="F">F — 0.0</option>
+          </select>
+          <button type="button" class="remove-btn" onclick="removeRow(this)">×</button>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button type="button" class="add-btn" onclick="addRow()">
+        <i class="ti ti-plus" aria-hidden="true"></i> Add another course
+      </button>
+
+      <button type="submit" class="submit-btn">Calculate GP &rarr;</button>
+    </form>
+  </main>
+
+  <script>
+    function addRow() {
+      const row = document.createElement('div');
+      row.className = 'course-row';
+      row.innerHTML = `
+        <input type="text" name="course_name" placeholder="Course name"/>
+        <input type="number" name="course_units" placeholder="Units" min="1" max="6"/>
+        <select name="course_grade">
+          <option value="">Grade</option>
+          <option value="A">A — 5.0</option>
+          <option value="B">B — 4.0</option>
+          <option value="C">C — 3.0</option>
+          <option value="D">D — 2.0</option>
+          <option value="E">E — 1.0</option>
+          <option value="F">F — 0.0</option>
+        </select>
+        <button type="button" class="remove-btn" onclick="removeRow(this)">×</button>`;
+      document.getElementById('course-list').appendChild(row);
+    }
+
+    function removeRow(btn) {
+      const rows = document.querySelectorAll('.course-row');
+      if (rows.length > 1) {
+        btn.closest('.course-row').remove();
+      }
+    }
+  </script>
+</body>
+</html>

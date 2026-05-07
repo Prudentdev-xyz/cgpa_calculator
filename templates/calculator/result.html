@@ -1,0 +1,295 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Result — GP Calc</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0f172a;
+        color: #fff;
+        min-height: 100vh;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid #1e293b;
+      }
+      .logo {
+        font-size: 15px;
+        font-weight: 700;
+        color: #3b82f6;
+        letter-spacing: 1px;
+        text-decoration: none;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .nav-right span {
+        font-size: 13px;
+        color: #64748b;
+      }
+      .nav-right a {
+        font-size: 12px;
+        color: #475569;
+        padding: 6px 14px;
+        border: 1px solid #334155;
+        border-radius: 6px;
+        text-decoration: none;
+      }
+      .nav-right a:hover {
+        border-color: #3b82f6;
+        color: #3b82f6;
+      }
+      .main {
+        max-width: 580px;
+        margin: 0 auto;
+        padding: 36px 16px 60px;
+      }
+      .gp-card {
+        background: #1e3a5f;
+        border: 1px solid #3b82f6;
+        border-radius: 16px;
+        padding: 32px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .gp-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #64748b;
+        margin-bottom: 10px;
+      }
+      .gp-num {
+        font-size: 60px;
+        font-weight: 700;
+        color: #3b82f6;
+        line-height: 1;
+      }
+      .gp-class {
+        font-size: 16px;
+        color: #94a3b8;
+        margin-top: 10px;
+      }
+      .meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .meta-card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .meta-card .ml {
+        font-size: 11px;
+        color: #64748b;
+        margin-bottom: 6px;
+      }
+      .meta-card .mv {
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .section-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #3b82f6;
+        margin-bottom: 10px;
+      }
+      .course-table {
+        background: #1e293b;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+      .ct-head {
+        display: grid;
+        grid-template-columns: 2fr 60px 80px 60px;
+        padding: 10px 16px;
+        background: #162032;
+      }
+      .ct-head span {
+        font-size: 11px;
+        color: #475569;
+        text-transform: uppercase;
+      }
+      .ct-row {
+        display: grid;
+        grid-template-columns: 2fr 60px 80px 60px;
+        padding: 12px 16px;
+        border-top: 1px solid #0f172a;
+        align-items: center;
+      }
+      .ct-row:hover {
+        background: #162032;
+      }
+      .cn {
+        font-size: 13px;
+        color: #e2e8f0;
+      }
+      .cu,
+      .cgp {
+        font-size: 13px;
+        color: #64748b;
+      }
+      .grade-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .grade-A {
+        background: #14532d;
+        color: #4ade80;
+      }
+      .grade-B {
+        background: #1e3a5f;
+        color: #60a5fa;
+      }
+      .grade-C {
+        background: #422006;
+        color: #fb923c;
+      }
+      .grade-D {
+        background: #422006;
+        color: #fb923c;
+      }
+      .grade-E {
+        background: #450a0a;
+        color: #fca5a5;
+      }
+      .grade-F {
+        background: #450a0a;
+        color: #f87171;
+      }
+      .btn-pdf {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 14px;
+        background: #3b82f6;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .btn-pdf:hover {
+        background: #2563eb;
+      }
+      .btn-again {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 13px;
+        background: transparent;
+        color: #3b82f6;
+        font-size: 14px;
+        border: 1px solid #3b82f6;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .btn-again:hover {
+        background: #1e3a5f;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="{% url 'landing' %}" class="logo">GP CALC</a>
+      <div class="nav-right">
+        <span>Hello, {{ request.user.username }}</span>
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
+    </nav>
+
+    <main class="main">
+      <!-- GP Score Card -->
+      <div class="gp-card">
+        <div class="gp-label">Your Grade Point</div>
+        <div class="gp-num">{{ result.gp }}</div>
+        <div class="gp-class">
+          {% if result.gp >= 4.5 %}First Class {% elif result.gp >= 3.5 %}Second
+          Class Upper {% elif result.gp >= 2.5 %}Second Class Lower {% elif
+          result.gp >= 1.5 %}Third Class {% else %}Fail {% endif %}
+        </div>
+      </div>
+
+      <!-- Meta cards -->
+      <div class="meta-grid">
+        <div class="meta-card">
+          <div class="ml">Total units</div>
+          <div class="mv">{{ result.total_units }}</div>
+        </div>
+        <div class="meta-card">
+          <div class="ml">Courses</div>
+          <div class="mv">{{ courses|length }}</div>
+        </div>
+      </div>
+
+      <!-- Course breakdown -->
+      <div class="section-label">Course breakdown</div>
+      <div class="course-table">
+        <div class="ct-head">
+          <span>Course</span>
+          <span>Units</span>
+          <span>Grade</span>
+          <span>GP</span>
+        </div>
+        {% for course in courses %}
+        <div class="ct-row">
+          <span class="cn">{{ course.name }}</span>
+          <span class="cu">{{ course.units }}</span>
+          <span
+            ><span class="grade-badge grade-{{ course.grade }}"
+              >{{ course.grade }}</span
+            ></span
+          >
+          <span class="cgp">{{ course.grade_point }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Actions -->
+      <a href="{% url 'download_pdf' id=result.id %}" class="btn-pdf">
+        <i class="ti ti-download" aria-hidden="true"></i> Download PDF
+      </a>
+      <a href="{% url 'calculate' %}" class="btn-again">
+        <i class="ti ti-calculator" aria-hidden="true"></i> Calculate again
+      </a>
+    </main>
+  </body>
+</html>

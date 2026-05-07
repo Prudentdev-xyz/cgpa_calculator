@@ -1,0 +1,191 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — GP Calc</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0f172a;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid #1e293b;
+      }
+      .logo {
+        font-size: 16px;
+        font-weight: 600;
+        color: #3b82f6;
+        letter-spacing: 1px;
+        text-decoration: none;
+      }
+      .main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 16px;
+      }
+      .card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 16px;
+        padding: 36px 32px;
+        width: 100%;
+        max-width: 400px;
+      }
+      .card h2 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 4px;
+        text-align: center;
+      }
+      .card .sub {
+        font-size: 13px;
+        color: #64748b;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      .field {
+        margin-bottom: 16px;
+      }
+      .field label {
+        display: block;
+        font-size: 12px;
+        color: #94a3b8;
+        margin-bottom: 6px;
+      }
+      .field input {
+        width: 100%;
+        padding: 11px 14px;
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        color: #fff;
+        font-size: 13px;
+        transition: border-color 0.2s;
+      }
+      .field input:focus {
+        outline: none;
+        border-color: #3b82f6;
+      }
+      .field input::placeholder {
+        color: #475569;
+      }
+      .btn {
+        width: 100%;
+        padding: 13px;
+        background: #3b82f6;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 4px;
+        transition: background 0.2s;
+      }
+      .btn:hover {
+        background: #2563eb;
+      }
+      .footer-link {
+        text-align: center;
+        font-size: 13px;
+        color: #64748b;
+        margin-top: 18px;
+      }
+      .footer-link a {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+      .messages {
+        margin-bottom: 16px;
+      }
+      .msg-error {
+        background: #450a0a;
+        border: 1px solid #7f1d1d;
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: #f87171;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="{% url 'landing' %}" class="logo">GP CALC</a>
+      <a
+        href="{% url 'signup' %}"
+        style="font-size: 13px; color: #3b82f6; text-decoration: none"
+        >Sign up</a
+      >
+    </nav>
+    <main class="main">
+      <div class="card">
+        <h2>Welcome back</h2>
+        <p class="sub">Login to calculate your GP</p>
+
+        {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+          <div class="msg-error">
+            <i class="ti ti-alert-circle"></i> {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+          {% csrf_token %}
+          <div class="field">
+            <label>Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder="your username"
+              required
+            />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <button type="submit" class="btn">Login &rarr;</button>
+        </form>
+
+        <div class="footer-link">
+          No account yet? <a href="{% url 'signup' %}">Sign up</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,374 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GP Calc — Calculate your GP in seconds</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0f172a;
+        color: #ffffff;
+        min-height: 100vh;
+      }
+
+      /* NAV */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid #1e293b;
+      }
+      .logo {
+        font-size: 16px;
+        font-weight: 600;
+        color: #3b82f6;
+        letter-spacing: 1px;
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 10px;
+      }
+      .btn-ghost {
+        padding: 8px 18px;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        color: #94a3b8;
+        font-size: 13px;
+        background: transparent;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-ghost:hover {
+        border-color: #3b82f6;
+        color: #3b82f6;
+      }
+      .btn-blue-outline {
+        padding: 8px 18px;
+        border: 1px solid #3b82f6;
+        border-radius: 8px;
+        color: #3b82f6;
+        font-size: 13px;
+        background: transparent;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-blue-outline:hover {
+        background: #1e3a5f;
+      }
+
+      /* HERO */
+      .hero {
+        text-align: center;
+        padding: 64px 24px 48px;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 20px;
+        padding: 5px 14px;
+        font-size: 12px;
+        color: #64748b;
+        margin-bottom: 24px;
+      }
+      .badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #3b82f6;
+        display: inline-block;
+      }
+      .hero h1 {
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 16px;
+        color: #ffffff;
+      }
+      .hero h1 span {
+        color: #3b82f6;
+      }
+      .hero p {
+        font-size: 15px;
+        color: #64748b;
+        line-height: 1.7;
+        margin-bottom: 36px;
+      }
+      .hero-btns {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+      .btn-primary {
+        width: 100%;
+        padding: 14px;
+        background: #3b82f6;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        transition: background 0.2s;
+      }
+      .btn-primary:hover {
+        background: #2563eb;
+      }
+      .btn-secondary {
+        width: 100%;
+        padding: 14px;
+        background: transparent;
+        color: #3b82f6;
+        font-size: 14px;
+        font-weight: 500;
+        border: 1px solid #3b82f6;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        transition: background 0.2s;
+      }
+      .btn-secondary:hover {
+        background: #1e3a5f;
+      }
+
+      /* STEPS */
+      .steps-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 40px 24px;
+        border-top: 1px solid #1e293b;
+        border-bottom: 1px solid #1e293b;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+      }
+      .step-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #1e293b;
+        border: 1px solid #334155;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .step-icon i {
+        font-size: 18px;
+        color: #3b82f6;
+      }
+      .step span {
+        font-size: 12px;
+        color: #64748b;
+      }
+      .step-arrow {
+        color: #334155;
+        font-size: 20px;
+        margin-bottom: 20px;
+        padding: 0 4px;
+      }
+
+      /* FEATURES */
+      .features {
+        padding: 48px 24px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .section-label {
+        text-align: center;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #3b82f6;
+        margin-bottom: 20px;
+      }
+      .feat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .feat-card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        padding: 18px;
+      }
+      .feat-card i {
+        font-size: 22px;
+        color: #3b82f6;
+        display: block;
+        margin-bottom: 10px;
+      }
+      .feat-card h4 {
+        font-size: 13px;
+        font-weight: 600;
+        color: #e2e8f0;
+        margin-bottom: 6px;
+      }
+      .feat-card p {
+        font-size: 12px;
+        color: #64748b;
+        line-height: 1.6;
+      }
+
+      /* FOOTER CTA */
+      .footer-cta {
+        text-align: center;
+        padding: 48px 24px 32px;
+      }
+      .footer-cta p {
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 18px;
+      }
+      .footer-cta a {
+        display: inline-block;
+        padding: 13px 32px;
+        background: #3b82f6;
+        color: #fff;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .footer-cta a:hover {
+        background: #2563eb;
+      }
+
+      /* FOOTER */
+      footer {
+        text-align: center;
+        padding: 16px 24px;
+        border-top: 1px solid #1e293b;
+        font-size: 12px;
+        color: #334155;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="/" class="logo">GP CALC</a>
+      <div class="nav-links">
+        <a href="{% url 'login' %}" class="btn-ghost">Login</a>
+        <a href="{% url 'signup' %}" class="btn-blue-outline">Sign up</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Fast &middot; Simple &middot; Free
+      </div>
+      <h1>Calculate your <span>GP</span><br />in seconds</h1>
+      <p>
+        Enter your courses, credit units and grades. Get your grade point
+        instantly. Download as PDF.
+      </p>
+      <div class="hero-btns">
+        <a href="{% url 'signup' %}" class="btn-primary">Get started &rarr;</a>
+        <a href="{% url 'login' %}" class="btn-secondary"
+          >Login to your account</a
+        >
+      </div>
+    </section>
+
+    <!-- STEPS -->
+    <div class="steps-section">
+      <div class="step">
+        <div class="step-icon"><i class="ti ti-login"></i></div>
+        <span>Login</span>
+      </div>
+      <div class="step-arrow">&rsaquo;</div>
+      <div class="step">
+        <div class="step-icon"><i class="ti ti-calculator"></i></div>
+        <span>Calculate</span>
+      </div>
+      <div class="step-arrow">&rsaquo;</div>
+      <div class="step">
+        <div class="step-icon"><i class="ti ti-chart-bar"></i></div>
+        <span>Result</span>
+      </div>
+      <div class="step-arrow">&rsaquo;</div>
+      <div class="step">
+        <div class="step-icon"><i class="ti ti-download"></i></div>
+        <span>PDF</span>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features">
+      <div class="section-label">Why use GP Calc</div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <i class="ti ti-bolt"></i>
+          <h4>Instant result</h4>
+          <p>Your GP calculated the moment you submit.</p>
+        </div>
+        <div class="feat-card">
+          <i class="ti ti-file-download"></i>
+          <h4>PDF download</h4>
+          <p>Save and share your result as a clean PDF.</p>
+        </div>
+        <div class="feat-card">
+          <i class="ti ti-device-mobile"></i>
+          <h4>Works on mobile</h4>
+          <p>Use it anywhere, no app install needed.</p>
+        </div>
+        <div class="feat-card">
+          <i class="ti ti-lock"></i>
+          <h4>Secure login</h4>
+          <p>Your results are tied to your account only.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <div class="footer-cta">
+      <p>Ready to calculate your GP?</p>
+      <a href="{% url 'signup' %}">Create free account &rarr;</a>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      GP Calc &copy; 2025 &nbsp;&middot;&nbsp; Built with Django &amp; Supabase
+    </footer>
+  </body>
+</html>
