@@ -137,3 +137,12 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'error',
 }
+
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+]
+DEBUG = False
